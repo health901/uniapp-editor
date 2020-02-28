@@ -48,8 +48,8 @@ https://github.com/health901/uniapp-editor-demo
 |组件|链接|备注|
 |---|--|--|
 |Popup 弹出层<sup>[[1]](#注)</sup>|https://ext.dcloud.net.cn/plugin?id=329|uni-ui库|
-|Transition动画|https://ext.dcloud.net.cn/plugin?id=329|uni-ui库,Popup依赖|
-|颜色选择器ColorPicker<sup>[[2]](#注)</sup>|https://ext.dcloud.net.cn/plugin?id=329|uni-ui库,Popup依赖|
+|Transition动画|https://ext.dcloud.net.cn/plugin?id=1231|uni-ui库,Popup依赖|
+|颜色选择器ColorPicker<sup>[[2]](#注)</sup>|https://ext.dcloud.net.cn/plugin?id=1237|uni-ui库,Popup依赖|
 
 
 ## 注
