@@ -9,14 +9,14 @@ uniapp 富文本编辑器插件
 
 ## 使用方式
 在 `script` 中引用组件
-```
+```js
 import myeditor from "@/components/editor/editor.vue"
 export default {
     components: {myeditor}
 }
 ```
 在 `template` 中使用组件
-```
+```html
 <myeditor class="editor" 
     @cancel="hideEditor" 
     @save="saveEditor" 
