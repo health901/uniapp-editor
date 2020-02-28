@@ -3,7 +3,7 @@
         <editor id="editor" class="ql-container" placeholder="开始输入..." showImgSize showImgToolbar showImgResize
             @statuschange="onStatusChange" :read-only="readOnly" @ready="onEditorReady">
         </editor>
-        <ehead class="header" @cancel="cancel" @save="save"></ehead>
+        <topbar class="header" @cancel="cancel" @save="save"></topbar>
         <view class='toolbar' @tap="format">
             <view :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu" data-name="bold" data-label="加粗"></view>
             <view :class="formats.italic ? 'ql-active' : ''" class="iconfont icon-zitixieti" data-name="italic"
@@ -69,14 +69,14 @@
 </template>
 
 <script>
-    import colorPicker from './colorPicker'
+    import colorPicker from '@/components/colorPicker.vue'
     import uniPopup from "@/components/uni-popup/uni-popup.vue"
-    import ehead from './header.vue'
+    import topbar from '@/components/editor/header.vue'
     export default {
         components: {
             colorPicker,
             uniPopup,
-            ehead
+            topbar
         },
         props: {
             html: {
@@ -260,11 +260,18 @@
 
     .wrapper {
         padding: 5px;
+
         .header {
             width: 100%;
             position: fixed;
-            top: 0;
             left: 0;
+            /* #ifndef H5 */
+            top: 0;
+            /* #endif */
+            /* #ifdef H5 */
+            top: 44px;
+            /* #endif */
+
         }
     }
 
@@ -280,6 +287,7 @@
         line-height: 45upx;
         display: flex;
         justify-content: space-evenly;
+
         .iconfont {
             padding: 12upx 0;
             width: 50upx;

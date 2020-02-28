@@ -1,6 +1,6 @@
 <template>
     <view class="content">
-        <ehead class="head" @cancel="cancel" @save="confirm"></ehead>
+        <topbar class="head" @cancel="cancel" @save="confirm"></topbar>
         <view class="color-picker">
             <view class="color-name">{{ colorName }}</view>
             <view class="show-view" :style="{ background: colorName }"></view>
@@ -15,10 +15,10 @@
 </template>
 
 <script>
-    import ehead from './header.vue'
+    import topbar from '@/components/editor/header.vue'
     export default {
         components: {
-            ehead
+            topbar
         },
         props: {
             color: {
