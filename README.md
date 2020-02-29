@@ -10,7 +10,7 @@ uniapp 富文本编辑器插件
 ## 使用方式
 在 `script` 中引用组件
 ```js
-import myeditor from "@/components/editor/editor.vue"
+import myeditor from "@/components/robin-editor/editor.vue"
 export default {
     components: {myeditor}
 }

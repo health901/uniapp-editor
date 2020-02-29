@@ -75,7 +75,7 @@
 <script>
     import colorPicker from '@/components/colorPicker.vue'
     import uniPopup from "@/components/uni-popup/uni-popup.vue"
-    import topbar from '@/components/editor/header.vue'
+    import topbar from './header.vue'
     export default {
         components: {
             colorPicker,

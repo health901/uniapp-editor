@@ -15,7 +15,7 @@
 </template>
 
 <script>
-    import topbar from '@/components/editor/header.vue'
+    import topbar from '@/components/robin-editor/header.vue'
     export default {
         components: {
             topbar
