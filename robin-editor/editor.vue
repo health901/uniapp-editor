@@ -283,7 +283,7 @@
                 }
             },
             previewData: function(html) {
-                this.htmlData = html.replace(/\<img/gi, '<img style="width:100%;height:auto"')
+                this.htmlData = html.replace(/\<img/gi, '<img style="max-width:100%;height:auto"')
                 this.showPreview = true
             },
             preview: function() {

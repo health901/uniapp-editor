@@ -32,8 +32,8 @@ https://github.com/health901/uniapp-editor-demo
 ## 属性说明
 |属性|类型|默认值|说明|
 |--|--|--|--|
-|html|String||初始化富文本|
-|imageUploader|Function||上传图片处理函数 接受参数 img:本地图片地址,callback:上传成功回调传入图片链接|
+|html|String| |初始化富文本|
+|imageUploader|Function| |上传图片处理函数 接受参数 img:本地图片地址,callback:上传成功回调传入图片链接|
 |muiltImage|Boolean|false|是否支持多图上传|
 |compressImage|Boolean|true|图片上传是否压缩|
 |previewMode|Boolean|false|预览模式,不可编辑|
