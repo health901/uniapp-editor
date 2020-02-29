@@ -1,10 +1,10 @@
 <template>
     <view class='wrapper'>
-        <editor id="editor" class="ql-container" placeholder="开始输入..." showImgSize showImgToolbar showImgResize
-            @statuschange="onStatusChange" :read-only="readOnly" @ready="onEditorReady">
+        <editor v-if="!previewMode" v-show="!showPreview" id="editor" class="ql-container" placeholder="开始输入..."
+            showImgSize showImgToolbar showImgResize @statuschange="onStatusChange" :read-only="readOnly" @ready="onEditorReady">
         </editor>
-        <topbar class="header" @cancel="cancel" @save="save"></topbar>
-        <view class='toolbar' @tap="format">
+        <topbar class="header" @cancel="cancel" @save="save" :labelConfirm="labelConfirm" :labelCancel="labelCancel"></topbar>
+        <view class='toolbar' @tap="format" v-if="!showPreview">
             <view :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu" data-name="bold" data-label="加粗"></view>
             <view :class="formats.italic ? 'ql-active' : ''" class="iconfont icon-zitixieti" data-name="italic"
                 data-label="斜体"></view>
@@ -28,7 +28,7 @@
 					 data-value="20px"></view> -->
             <!-- <view :class="formats.previewarginBottom ? 'ql-active' : ''" class="iconfont icon-723bianjiqi_duanhouju"
 					 data-name="marginBottom" data-value="20px"></view> -->
-            <view class="iconfont icon-clearedformat" @tap="removeFormat"></view>
+            <view class="iconfont icon-clearedformat" @tap.stop="removeFormat"></view>
             <picker class="iconfont" mode="selector" :range="fontSizeRange" @change="fontSize">
                 <view class="icon-fontsize"></view>
             </picker>
@@ -50,21 +50,25 @@
             <!-- <view class="iconfont icon-outdent" data-name="indent" data-value="-1"></view> -->
             <!-- <view class="iconfont icon-indent" data-name="indent" data-value="+1"></view> -->
             <!-- <view class="iconfont icon-fengexian" @tap="insertDivider"></view> -->
-            <view class="iconfont icon-charutupian" @tap="insertImage"></view>
+            <view class="iconfont icon-charutupian" @tap.stop="insertImage"></view>
             <!-- <view :class="formats.header === 1 ? 'ql-active' : ''" class="iconfont icon-format-header-1" data-name="header"
 					 :data-value="1"></view> -->
             <!-- <view :class="formats.script === 'sub' ? 'ql-active' : ''" class="iconfont icon-zitixiabiao" data-name="script"
 					 data-value="sub"></view>
 					<view :class="formats.script === 'super' ? 'ql-active' : ''" class="iconfont icon-zitishangbiao" data-name="script"
 					 data-value="super"></view> -->
-            <view class="iconfont icon-shanchu" @tap="clear"></view>
+            <view class="iconfont icon-shanchu" @tap.stop="clear"></view>
             <!-- <view :class="formats.direction === 'rtl' ? 'ql-active' : ''" class="iconfont icon-direction-rtl" data-name="direction"
 					 data-value="rtl"></view> -->
+            <view class="iconfont icon-preview" @tap.stop="preview"></view>
 
         </view>
         <uni-popup ref="popup" type="bottom" @transed="colorPop">
             <colorPicker :color="color" :show="showColor" @confirm="colorChanged" @cancel="colorPopClose"></colorPicker>
         </uni-popup>
+        <view class="preview" v-show="showPreview">
+            <rich-text :nodes="htmlData" class="previewNodes"></rich-text>
+        </view>
     </view>
 </template>
 
@@ -92,10 +96,15 @@
             compressImage: {
                 type: Boolean,
                 default: false
+            },
+            previewMode: {
+                type: Boolean,
+                default: false
             }
         },
         data() {
             return {
+                show: true,
                 readOnly: false,
                 formats: {},
                 fontColor: "#000000",
@@ -103,7 +112,22 @@
                 color: "",
                 colorPickerName: "",
                 showColor: false,
-                fontSizeRange: [10, 12, 14, 16, 18, 24, 32]
+                fontSizeRange: [10, 12, 14, 16, 18, 24, 32],
+                showPreview: false,
+                htmlData: "",
+            }
+        },
+        mounted: function() {
+            if (this.previewMode) {
+                this.previewData(this.html)
+            }
+        },
+        computed: {
+            labelConfirm: function() {
+                return this.showPreview ? "关闭" : "保存"
+            },
+            labelCancel: function() {
+                return this.showPreview ? "" : "取消"
             }
         },
         methods: {
@@ -244,9 +268,28 @@
                 this.$emit('cancel')
             },
             save() {
+                if (this.showPreview) {
+                    if (this.previewMode) {
+                        this.cancel()
+                    } else {
+                        this.showPreview = false
+                    }
+                } else {
+                    this.editorCtx.getContents({
+                        success: res => {
+                            this.$emit('save', res)
+                        }
+                    })
+                }
+            },
+            previewData: function(html) {
+                this.htmlData = html.replace(/\<img/gi, '<img style="width:100%;height:auto"')
+                this.showPreview = true
+            },
+            preview: function() {
                 this.editorCtx.getContents({
                     success: res => {
-                        this.$emit('save', res)
+                        this.previewData(res.html)
                     }
                 })
 
@@ -308,6 +351,15 @@
         font-size: 32upx;
         line-height: 1.5;
         border: 1px solid #333333;
+    }
+
+    .preview {
+        width: 100%;
+        margin-top: 60upx;
+
+        .previewNodes {
+            width: 100%;
+        }
     }
 
     .ql-active {
