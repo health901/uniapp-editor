@@ -6,6 +6,12 @@ uniapp 富文本编辑器插件
 |:--:|:--:|:--:|
 |√|√ |x|
 
+## 更新日志
+### 1.1.0
+ * 优化样式
+ * 支持自定义工具栏
+ * 修复图片预览尺寸
+
 
 ## 使用方式
 在 `script` 中引用组件
@@ -26,17 +32,43 @@ export default {
 </myeditor>
 ```
 
-## demo
+## Demo
 https://github.com/health901/uniapp-editor-demo
 
 ## 属性说明
 |属性|类型|默认值|说明|
 |--|--|--|--|
 |html|String| |初始化富文本|
-|imageUploader|Function| |上传图片处理函数 接受参数 img:本地图片地址,callback:上传成功回调传入图片链接|
+|imageUploader|function(img,callback)| |上传图片处理函数 接受参数 img:本地图片地址,callback:上传成功回调传入图片链接|
 |muiltImage|Boolean|false|是否支持多图上传|
 |compressImage|Boolean|true|图片上传是否压缩|
 |previewMode|Boolean|false|预览模式,不可编辑|
+|tools|Array|['bold', 'italic', 'underline', 'strike', 'align-left', 'align-center', 'align-right', 'remove', 'font', 'color', 'backgroundColor','image', 'clear', 'preview' ]|工具栏|
+
+### 工具栏
+|名称|值|
+|--|--|
+|加粗|`bold`|
+|斜体|`italic`|
+|下划线|`underline`|
+|删除线|`strike`|
+|右对齐|`align-left`|
+|居中|`align-center`|
+|左对齐|`align-right`|
+|清除格式|`remove`|
+|字体大小|`font`|
+|字体颜色|`color`|
+|背景色|`backgroundColor`|
+|清空|`clear`|
+|预览|`preview`|
+|插入日期|`date`|
+|列表|`list-check`,`list-ordered`,`list-bullet`|
+|上下标|`sub`,`super`|
+|撤销,恢复撤销|`undo`,`redo`|
+|缩进|`indent`,`outdent`|
+|分割线|`divider`|
+|标题|`h1`,`h2`,`h3`,`h4`,`h5`,`h6`|
+|书写方向|`rtl`|
 
 ## 事件说明
 |事件|说明|参数|

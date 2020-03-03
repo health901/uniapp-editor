@@ -5,63 +5,72 @@
         </editor>
         <topbar class="header" @cancel="cancel" @save="save" :labelConfirm="labelConfirm" :labelCancel="labelCancel"></topbar>
         <view class='toolbar' @tap="format" v-if="!showPreview">
-            <view :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu" data-name="bold" data-label="加粗"></view>
-            <view :class="formats.italic ? 'ql-active' : ''" class="iconfont icon-zitixieti" data-name="italic"
-                data-label="斜体"></view>
-            <view :class="formats.underline ? 'ql-active' : ''" class="iconfont icon-zitixiahuaxian" data-name="underline"
-                data-label="下滑线"></view>
-            <view :class="formats.strike ? 'ql-active' : ''" class="iconfont icon-zitishanchuxian" data-name="strike"
-                data-label="删除线"></view>
-            <view :class="(formats.align === 'left' || !formats.align) ? 'ql-active' : ''" class="iconfont icon-zuoduiqi"
-                data-name="align" data-value="left" data-label="居左"></view>
-            <view :class="formats.align === 'center' ? 'ql-active' : ''" class="iconfont icon-juzhongduiqi" data-name="align"
-                data-value="center" data-label="居中"></view>
-            <view :class="formats.align === 'right' ? 'ql-active' : ''" class="iconfont icon-youduiqi" data-name="align"
-                data-value="right" data-label="居右"></view>
-            <!-- <view :class="formats.align === 'justify' ? 'ql-active' : ''" class="iconfont icon-zuoyouduiqi"
-                        data-name="align" data-value="justify"></view> -->
-            <!-- <view :class="formats.lineHeight ? 'ql-active' : ''" class="iconfont icon-line-height" data-name="lineHeight"
-					 data-value="2"></view> -->
-            <!-- <view :class="formats.letterSpacing ? 'ql-active' : ''" class="iconfont icon-Character-Spacing" data-name="letterSpacing"
-					 data-value="2em"></view> -->
-            <!-- <view :class="formats.marginTop ? 'ql-active' : ''" class="iconfont icon-722bianjiqi_duanqianju" data-name="marginTop"
-					 data-value="20px"></view> -->
-            <!-- <view :class="formats.previewarginBottom ? 'ql-active' : ''" class="iconfont icon-723bianjiqi_duanhouju"
-					 data-name="marginBottom" data-value="20px"></view> -->
-            <view class="iconfont icon-clearedformat" @tap.stop="removeFormat"></view>
-            <picker class="iconfont" mode="selector" :range="fontSizeRange" @change="fontSize">
-                <view class="icon-fontsize"></view>
-            </picker>
-
-            <view :style="fontColor!='#FFFFFF' ? 'color:'+formats.color : ''" class="iconfont icon-text_color"
-                data-name="color" @tap.stop="openColor"></view>
-            <view :style="bgColor ? 'color:'+formats.backgroundColor : '' " class="iconfont icon-fontbgcolor" data-name="backgroundColor"
-                @tap.stop="openColor"></view>
-
-            <!-- <view class="iconfont icon-date" @tap="insertDate"></view> -->
-            <!-- <view class="iconfont icon--checklist" data-name="list" data-value="check"></view> -->
-            <!-- <view :class="formats.list === 'ordered' ? 'ql-active' : ''" class="iconfont icon-youxupailie"
-                        data-name="list" data-value="ordered"></view> -->
-            <!-- <view :class="formats.list === 'bullet' ? 'ql-active' : ''" class="iconfont icon-wuxupailie"
-                        data-name="list" data-value="bullet"></view> -->
-            <!-- <view class="iconfont icon-undo" @tap="undo"></view> -->
-            <!-- <view class="iconfont icon-redo" @tap="redo"></view> -->
-
-            <!-- <view class="iconfont icon-outdent" data-name="indent" data-value="-1"></view> -->
-            <!-- <view class="iconfont icon-indent" data-name="indent" data-value="+1"></view> -->
-            <!-- <view class="iconfont icon-fengexian" @tap="insertDivider"></view> -->
-            <view class="iconfont icon-charutupian" @tap.stop="insertImage"></view>
-            <!-- <view :class="formats.header === 1 ? 'ql-active' : ''" class="iconfont icon-format-header-1" data-name="header"
-					 :data-value="1"></view> -->
-            <!-- <view :class="formats.script === 'sub' ? 'ql-active' : ''" class="iconfont icon-zitixiabiao" data-name="script"
-					 data-value="sub"></view>
-					<view :class="formats.script === 'super' ? 'ql-active' : ''" class="iconfont icon-zitishangbiao" data-name="script"
-					 data-value="super"></view> -->
-            <view class="iconfont icon-shanchu" @tap.stop="clear"></view>
-            <!-- <view :class="formats.direction === 'rtl' ? 'ql-active' : ''" class="iconfont icon-direction-rtl" data-name="direction"
-					 data-value="rtl"></view> -->
-            <view class="iconfont icon-preview" @tap.stop="preview"></view>
-
+            <block v-for="(t,i) in tools" :key="i">
+                <view v-if="t=='bold'" :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu"
+                    data-name="bold" data-label="加粗"></view>
+                <view v-if="t=='italic'" :class="formats.italic ? 'ql-active' : ''" class="iconfont icon-zitixieti"
+                    data-name="italic" data-label="斜体"></view>
+                <view v-if="t=='underline'" :class="formats.underline ? 'ql-active' : ''" class="iconfont icon-zitixiahuaxian"
+                    data-name="underline" data-label="下滑线"></view>
+                <view v-if="t=='strike'" :class="formats.strike ? 'ql-active' : ''" class="iconfont icon-zitishanchuxian"
+                    data-name="strike" data-label="删除线"></view>
+                <view v-if="t=='align-left'" :class="(formats.align === 'left' || !formats.align) ? 'ql-active' : ''"
+                    class="iconfont icon-zuoduiqi" data-name="align" data-value="left" data-label="居左"></view>
+                <view v-if="t=='align-center'" :class="formats.align === 'center' ? 'ql-active' : ''" class="iconfont icon-juzhongduiqi"
+                    data-name="align" data-value="center" data-label="居中"></view>
+                <view v-if="t=='align-right'" :class="formats.align === 'right' ? 'ql-active' : ''" class="iconfont icon-youduiqi"
+                    data-name="align" data-value="right" data-label="居右"></view>
+                <view v-if="t=='align-justify'" :class="formats.align === 'justify' ? 'ql-active' : ''" class="iconfont icon-zuoyouduiqi"
+                    data-name="align" data-value="justify" data-label="平铺"></view>
+                <!--                  <view :class="formats.lineHeight ? 'ql-active' : ''" class="iconfont icon-line-height" data-name="lineHeight"
+                    		 data-value="2"></view>
+                    <view :class="formats.letterSpacing ? 'ql-active' : ''" class="iconfont icon-Character-Spacing" data-name="letterSpacing"
+                    		 data-value="2em"></view>
+                    <view :class="formats.marginTop ? 'ql-active' : ''" class="iconfont icon-722bianjiqi_duanqianju" data-name="marginTop"
+                    		 data-value="20px"></view>
+                    <view :class="formats.previewarginBottom ? 'ql-active' : ''" class="iconfont icon-723bianjiqi_duanhouju"
+                    		 data-name="marginBottom" data-value="20px"></view> -->
+                <view v-if="t=='remove'" class="iconfont icon-clearedformat" @tap.stop="removeFormat"></view>
+                <picker v-if="t=='font'" class="iconfont" mode="selector" :range="fontSizeRange" @change="fontSize">
+                    <view class="icon-fontsize"></view>
+                </picker>
+                <view v-if="t=='color'" :style="fontColor!='#FFFFFF' ? 'color:'+formats.color : ''" class="iconfont icon-text_color"
+                    data-name="color" @tap.stop="openColor"></view>
+                <view v-if="t=='backgroundColor'" :style="bgColor ? 'color:'+formats.backgroundColor : '' " class="iconfont icon-fontbgcolor"
+                    data-name="backgroundColor" @tap.stop="openColor"></view>
+                <view v-if="t=='image'" class="iconfont icon-charutupian" @tap.stop="insertImage"></view>
+                <view v-if="t=='clear'" class="iconfont icon-shanchu" @tap.stop="clear"></view>
+                <view v-if="t=='preview'" class="iconfont icon-preview" @tap.stop="preview"></view>
+                <view v-if="t=='date'" class="iconfont icon-date" @tap="insertDate"></view>
+                <view v-if="t=='list-check'" class="iconfont icon-checklist" data-name="list" data-value="check"></view>
+                <view v-if="t=='list-ordered'" :class="formats.list === 'ordered' ? 'ql-active' : ''" class="iconfont icon-youxupailie"
+                    data-name="list" data-value="ordered"></view>
+                <view v-if="t=='list-bullet'" :class="formats.list === 'bullet' ? 'ql-active' : ''" class="iconfont icon-wuxupailie"
+                    data-name="list" data-value="bullet"></view>
+                <view v-if="t=='undo'" class="iconfont icon-undo" @tap="undo"></view>
+                <view v-if="t=='redo'" class="iconfont icon-redo" @tap="redo"></view>
+                <view v-if="t=='outdent'" class="iconfont icon-outdent" data-name="indent" data-value="-1"></view>
+                <view v-if="t=='indent'" class="iconfont icon-indent" data-name="indent" data-value="+1"></view>
+                <view v-if="t=='divider'" class="iconfont icon-fengexian" @tap="insertDivider"></view>
+                <view v-if="t=='h1'" :class="formats.header === 1 ? 'ql-active' : ''" class="iconfont icon-format-header-1"
+                    data-name="header" :data-value="1"></view>
+                <view v-if="t=='h2'" :class="formats.header === 2 ? 'ql-active' : ''" class="iconfont icon-format-header-2"
+                    data-name="header" :data-value="2"></view>
+                <view v-if="t=='h3'" :class="formats.header === 3 ? 'ql-active' : ''" class="iconfont icon-format-header-3"
+                    data-name="header" :data-value="3"></view>
+                <view v-if="t=='h4'" :class="formats.header === 4 ? 'ql-active' : ''" class="iconfont icon-format-header-4"
+                    data-name="header" :data-value="4"></view>
+                <view v-if="t=='h5'" :class="formats.header === 5 ? 'ql-active' : ''" class="iconfont icon-format-header-5"
+                    data-name="header" :data-value="5"></view>
+                <view v-if="t=='h6'" :class="formats.header === 6 ? 'ql-active' : ''" class="iconfont icon-format-header-6"
+                    data-name="header" :data-value="6"></view>
+                <view v-if="t=='sub'" :class="formats.script === 'sub' ? 'ql-active' : ''" class="iconfont icon-zitixiabiao"
+                    data-name="script" data-value="sub"></view>
+                <view v-if="t=='super'" :class="formats.script === 'super' ? 'ql-active' : ''" class="iconfont icon-zitishangbiao"
+                    data-name="script" data-value="super"></view>
+                <view v-if="t=='rtl'" :class="formats.direction === 'rtl' ? 'ql-active' : ''" class="iconfont icon-direction-rtl"
+                    data-name="direction" :data-value="formats.direction === 'rtl' ? '' : 'rtl'"></view>
+            </block>
         </view>
         <uni-popup ref="popup" type="bottom" @transed="colorPop">
             <colorPicker :color="color" :show="showColor" @confirm="colorChanged" @cancel="colorPopClose"></colorPicker>
@@ -100,6 +109,14 @@
             previewMode: {
                 type: Boolean,
                 default: false
+            },
+            tools: {
+                type: Array,
+                default: function() {
+                    return ['bold', 'italic', 'underline', 'strike', 'align-left', 'align-center', 'align-right',
+                        'remove', 'font', 'color', 'backgroundColor', 'clear', 'preview'
+                    ]
+                }
             }
         },
         data() {
@@ -326,16 +343,23 @@
         box-sizing: border-box;
         font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
         background-color: #fff;
-        border-top: 1px solid #ccc;
+        border-top: 1px solid #eee;
         line-height: 45upx;
-        display: flex;
         justify-content: space-evenly;
-
+        display: flex;
+        flex-wrap: wrap;
+        &::after{
+            content: '';
+            flex: 1;
+        }
         .iconfont {
+            display: block;
             padding: 12upx 0;
-            width: 50upx;
+            width: 56upx;
+            height: 68upx;
             text-align: center;
-            font-size: 35upx;
+            font-size: 36upx;
+            box-sizing: border-box;
         }
     }
 
@@ -347,10 +371,10 @@
         min-height: 30vh;
         height: auto;
         background: #fff;
-        margin-top: 80upx;
+        margin-top: 90upx;
         font-size: 32upx;
         line-height: 1.5;
-        border: 1px solid #333333;
+        border: 1px solid #eee;
     }
 
     .preview {

@@ -1,6 +1,6 @@
 <template>
     <view class="head">
-        <view class="btn grey left" @tap="cancel" v-if="labelCancel">{{labelCancel}}</view>
+        <view class="btn left" @tap="cancel" v-if="labelCancel">{{labelCancel}}</view>
         <view class="btn right" @tap="save" v-if="labelConfirm">{{labelConfirm}}</view>
     </view>
 </template>
@@ -30,27 +30,27 @@
 
 <style lang="scss" scoped>
     .head {
-        width: 100%;
-        height: 60upx;
-        border-bottom: 1px solid #ccc;
-        justify-content: space-between;
-        background-color: #fff;
-
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		height: 100%;
+		border-bottom: 1px #eee solid;
+		// box-shadow: 1px 0 2px rgba(0, 0, 0, 0.1);
+		background: #fff;
         .btn {
             display: block;
-            line-height: 60upx;
+            width: 150upx;
+            height: 80upx;
+            line-height: 80upx;
             font-size: 30upx;
-            text-align: right;
-            padding: 0 10upx;
-            color: #007AFF;
+            color: #666;
+            padding-left: 20upx;
+            text-align: center;
             &.left{
               float: left;  
             }
             &.right{
                 float: right;
-            }
-            &.grey {
-                color: #333333;
             }
         }
     }
