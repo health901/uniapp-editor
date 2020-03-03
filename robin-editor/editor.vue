@@ -379,7 +379,7 @@
 
     .preview {
         width: 100%;
-        margin-top: 60upx;
+        margin-top: 90upx;
 
         .previewNodes {
             width: 100%;
