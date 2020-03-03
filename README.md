@@ -59,6 +59,7 @@ https://github.com/health901/uniapp-editor-demo
 |字体大小|`font`|
 |字体颜色|`color`|
 |背景色|`backgroundColor`|
+|插入图片|`image`|
 |清空|`clear`|
 |预览|`preview`|
 |插入日期|`date`|
