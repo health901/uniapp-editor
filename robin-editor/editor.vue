@@ -23,13 +23,13 @@
                 <view v-if="t=='align-justify'" :class="formats.align === 'justify' ? 'ql-active' : ''" class="iconfont icon-zuoyouduiqi"
                     data-name="align" data-value="justify" data-label="平铺"></view>
                 <!--                  <view :class="formats.lineHeight ? 'ql-active' : ''" class="iconfont icon-line-height" data-name="lineHeight"
-                    		 data-value="2"></view>
+                             data-value="2"></view>
                     <view :class="formats.letterSpacing ? 'ql-active' : ''" class="iconfont icon-Character-Spacing" data-name="letterSpacing"
-                    		 data-value="2em"></view>
+                             data-value="2em"></view>
                     <view :class="formats.marginTop ? 'ql-active' : ''" class="iconfont icon-722bianjiqi_duanqianju" data-name="marginTop"
-                    		 data-value="20px"></view>
+                             data-value="20px"></view>
                     <view :class="formats.previewarginBottom ? 'ql-active' : ''" class="iconfont icon-723bianjiqi_duanhouju"
-                    		 data-name="marginBottom" data-value="20px"></view> -->
+                             data-name="marginBottom" data-value="20px"></view> -->
                 <view v-if="t=='remove'" class="iconfont icon-clearedformat" @tap.stop="removeFormat"></view>
                 <picker v-if="t=='font'" class="iconfont" mode="selector" :range="fontSizeRange" @change="fontSize">
                     <view class="icon-fontsize"></view>
@@ -114,7 +114,7 @@
                 type: Array,
                 default: function() {
                     return ['bold', 'italic', 'underline', 'strike', 'align-left', 'align-center', 'align-right',
-                        'remove', 'font', 'color', 'backgroundColor', 'clear', 'preview'
+                        'remove', 'font', 'color', 'backgroundColor', 'image', 'clear', 'preview'
                     ]
                 }
             }
@@ -348,14 +348,16 @@
         justify-content: space-evenly;
         display: flex;
         flex-wrap: wrap;
-        &::after{
+
+        &::after {
             content: '';
             flex: 1;
         }
+
         .iconfont {
             display: block;
             padding: 12upx 0;
-            width: 56upx;
+            width: 54upx;
             height: 68upx;
             text-align: center;
             font-size: 36upx;
