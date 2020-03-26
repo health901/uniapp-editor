@@ -1,10 +1,12 @@
 <template>
     <view class='wrapper'>
-        <editor v-if="!previewMode" v-show="!showPreview" id="editor" class="ql-container" placeholder="开始输入..."
-            showImgSize showImgToolbar showImgResize @statuschange="onStatusChange" :read-only="readOnly" @ready="onEditorReady">
-        </editor>
         <topbar class="header" @cancel="cancel" @save="save" :labelConfirm="labelConfirm" :labelCancel="labelCancel"></topbar>
-        <view class='toolbar' @tap="format" v-if="!showPreview">
+        <view :style="'height:'+editorHeight+'px;'" class="container">
+            <editor v-if="!previewMode" v-show="!showPreview" id="editor" class="ql-container" placeholder="开始输入..."
+                showImgSize showImgToolbar showImgResize @statuschange="onStatusChange" :read-only="readOnly" @ready="onEditorReady">
+            </editor>
+        </view>
+        <view class='toolbar' @tap="format" v-if="!showPreview" v-show="keyboardHeight || !autoHideToolbar" :style="'bottom:'+ (isIOS ? keyboardHeight : 0)+'px'">
             <block v-for="(t,i) in tools" :key="i">
                 <view v-if="t=='bold'" :class="formats.bold ? 'ql-active' : ''" class="iconfont icon-zitijiacu"
                     data-name="bold" data-label="加粗"></view>
@@ -110,6 +112,10 @@
                 type: Boolean,
                 default: false
             },
+            autoHideToolbar: {
+                type: Boolean,
+                default: false
+            },
             tools: {
                 type: Array,
                 default: function() {
@@ -132,12 +138,33 @@
                 fontSizeRange: [10, 12, 14, 16, 18, 24, 32],
                 showPreview: false,
                 htmlData: "",
+                keyboardHeight: 0,
+                editorHeight: 0,
+                isIOS: false,
             }
         },
         mounted: function() {
+            const platform = uni.getSystemInfoSync().platform
+            this.isIOS = platform === 'ios'
             if (this.previewMode) {
                 this.previewData(this.html)
             }
+            let keyboardHeight = 0
+            this.updatePosition(0)
+            uni.onKeyboardHeightChange(res => {
+                if (res.height === keyboardHeight) return
+                const duration = res.height > 0 ? res.duration * 1000 : 0
+                keyboardHeight = res.height
+                setTimeout(() => {
+                    uni.pageScrollTo({
+                        scrollTop: 0,
+                        success: () => {
+                            this.updatePosition(keyboardHeight)
+                            this.editorCtx && this.editorCtx.scrollIntoView()
+                        }
+                    })
+                }, duration)
+            })
         },
         computed: {
             labelConfirm: function() {
@@ -148,6 +175,24 @@
             }
         },
         methods: {
+            updatePosition(keyboardHeight) {
+                const {
+                    windowHeight,
+                    windowWidth,
+                    platform
+                } = uni.getSystemInfoSync()
+                const rpx = windowWidth / 750
+                const topbarHeight = 85 * rpx;
+                //#ifdef H5
+                topbarHeight += 44;
+                //#endif
+                const toolbarHeight = (70 * Math.ceil(this.tools.length / 15) + 1) * rpx
+
+                const bodyHeight = windowHeight - topbarHeight
+                this.keyboardHeight = keyboardHeight
+                this.editorHeight = keyboardHeight > 0 ? (bodyHeight - keyboardHeight - toolbarHeight) : (this.autoHideToolbar ?
+                    bodyHeight : bodyHeight - toolbarHeight)
+            },
             openColor(e) {
                 var name = e.currentTarget.dataset.name
                 var color = this.formats[name]
@@ -320,10 +365,12 @@
 
     .wrapper {
         padding: 5px;
+        width: 100%;
 
         .header {
             width: 100%;
             position: fixed;
+            z-index: 9;
             left: 0;
             /* #ifndef H5 */
             top: 0;
@@ -333,55 +380,52 @@
             /* #endif */
 
         }
-    }
 
-    .toolbar {
-        position: fixed;
-        width: 100%;
-        left: 0;
-        bottom: 0;
-        box-sizing: border-box;
-        font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
-        background-color: #fff;
-        border-top: 1px solid #eee;
-        line-height: 45upx;
-        justify-content: space-evenly;
-        display: flex;
-        flex-wrap: wrap;
+        .container {
+            width: 100%;
+            margin-top: 75rpx;
+            background: #fff;
 
-        &::after {
-            content: '';
-            flex: 1;
+            .ql-container {
+                box-sizing: border-box;
+                width: 100%;
+                height: 100%;
+                font-size: 16px;
+                line-height: 1.5;
+                overflow: auto;
+                padding: 20rpx;
+            }
         }
 
-        .iconfont {
-            display: block;
-            padding: 12upx 0;
-            width: 54upx;
-            height: 68upx;
-            text-align: center;
-            font-size: 36upx;
+        .toolbar {
+            position: fixed;
+            width: 100%;
+            left: 0;
+            bottom: 0;
             box-sizing: border-box;
+            font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+            background-color: #fff;
+            border-top: 1px solid #eee;
+            line-height: 50rpx;
+
+            .iconfont {
+                display: inline-block;
+                padding: 10rpx 0;
+                width: 50rpx;
+                text-align: center;
+                font-size: 34rpx;
+                box-sizing: border-box;
+            }
         }
     }
 
 
-    .ql-container {
-        box-sizing: border-box;
-        padding: 24upx 30upx;
-        width: 100%;
-        min-height: 30vh;
-        height: auto;
-        background: #fff;
-        margin-top: 90upx;
-        font-size: 32upx;
-        line-height: 1.5;
-        border: 1px solid #eee;
-    }
+
+
 
     .preview {
         width: 100%;
-        margin-top: 90upx;
+        margin-top: 90rpx;
 
         .previewNodes {
             width: 100%;
