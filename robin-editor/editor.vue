@@ -182,7 +182,7 @@
                     platform
                 } = uni.getSystemInfoSync()
                 const rpx = windowWidth / 750
-                const topbarHeight = 85 * rpx;
+                let topbarHeight = 85 * rpx;
                 //#ifdef H5
                 topbarHeight += 44;
                 //#endif

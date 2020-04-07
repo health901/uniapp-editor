@@ -6,13 +6,6 @@ uniapp 富文本编辑器插件
 |:--:|:--:|:--:|
 |√|√ |x|
 
-## 更新日志
-### 1.1.0
- * 优化样式
- * 支持自定义工具栏
- * 修复图片预览尺寸
-
-
 ## 使用方式
 在 `script` 中引用组件
 ```js
@@ -43,7 +36,8 @@ https://github.com/health901/uniapp-editor-demo
 |muiltImage|Boolean|false|是否支持多图上传|
 |compressImage|Boolean|true|图片上传是否压缩|
 |previewMode|Boolean|false|预览模式,不可编辑|
-|tools|Array|['bold', 'italic', 'underline', 'strike', 'align-left', 'align-center', 'align-right', 'remove', 'font', 'color', 'backgroundColor','image', 'clear', 'preview' ]|工具栏|
+|autoHideToolbar|Boolean|false|失去焦点时自动隐藏工具栏|
+|tools|Array|['bold', 'italic', 'underline', 'strike', 'align-left', 'align-center', 'align-right', 'remove', 'font', 'color', 'backgroundColor','image', 'clear', 'preview']|工具栏|
 
 ### 工具栏
 |名称|值|
