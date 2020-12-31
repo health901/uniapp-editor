@@ -1,7 +1,7 @@
 <template>
     <view class='wrapper'>
         <topbar class="header" @cancel="cancel" @save="save" :labelConfirm="labelConfirm" :labelCancel="labelCancel"></topbar>
-        <view :style="'height:'+editorHeight+'px;'" class="container">
+        <view :style="'height:'+editorHeight+'px;'" class="container" v-if="!previewMode" v-show="!showPreview">
             <editor v-if="!previewMode" v-show="!showPreview" id="editor" class="ql-container" placeholder="开始输入..."
                 showImgSize showImgToolbar showImgResize @statuschange="onStatusChange" :read-only="readOnly" @ready="onEditorReady">
             </editor>
@@ -426,9 +426,11 @@
     .preview {
         width: 100%;
         margin-top: 90rpx;
+        
 
         .previewNodes {
             width: 100%;
+            word-break: break-all;
         }
     }
 
