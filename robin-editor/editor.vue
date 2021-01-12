@@ -404,6 +404,7 @@ export default {
                 this.editorCtx.getContents({
                     success: res => {
                         this.$emit('save', res);
+                        this.$emit('input', res.html);
                     }
                 });
             }
