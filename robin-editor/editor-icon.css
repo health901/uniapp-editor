@@ -1,6 +1,6 @@
 @font-face {
 	font-family: "iconfont";
-	src: url('https://img-cdn-qiniu.dcloud.net.cn/fonts/editor-icon.ttf') format('truetype');
+	src: url('~./editor-icon.ttf') format('truetype');
 }
 
 .iconfont {
