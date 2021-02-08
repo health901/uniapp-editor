@@ -6,23 +6,21 @@ uniapp 富文本编辑器插件
 |:--:|:--:|:--:|
 |√|√ |x|
 
+App键盘弹出界面高度未解决
+
 ## 使用方式
-在 `script` 中引用组件
-```js
-import myeditor from "@/components/robin-editor/editor.vue"
-export default {
-    components: {myeditor}
-}
+无需引入,直接使用
+
 ```
 在 `template` 中使用组件
 ```html
-<myeditor class="editor" 
+<robin-editor class="editor" 
     @cancel="hideEditor" 
     @save="saveEditor" 
     v-model="html"
     :imageUploader="uploadImg" 
     :muiltImage="true">
-</myeditor>
+</robin-editor>
 ```
 
 ## Demo
@@ -74,12 +72,8 @@ https://github.com/health901/uniapp-editor-demo
 ## 依赖
 |组件|链接|备注|
 |---|--|--|
-|Popup 弹出层<sup>[[1]](#注)</sup>|https://ext.dcloud.net.cn/plugin?id=329|uni-ui库|
-|Transition动画|https://ext.dcloud.net.cn/plugin?id=1231|uni-ui库,Popup依赖|
-|颜色选择器ColorPicker<sup>[[2]](#注)</sup>|https://ext.dcloud.net.cn/plugin?id=1237|字体颜色,背景色|
+|颜色选择器ColorPicker<sup>[[1]](#注)</sup>|https://ext.dcloud.net.cn/plugin?id=1237|字体颜色,背景色|
 
 
 ## 注
-
-1. 修改:新增动画结束事件
-2. 修改:添加按钮,支持预设颜色值
+1. 修改:添加按钮,支持预设颜色值
