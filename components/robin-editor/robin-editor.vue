@@ -1,6 +1,6 @@
 <template>
-    <view class="wrapper">
-        <topbar class="header" @cancel="cancel" @save="save" :labelConfirm="labelConfirm" :labelCancel="labelCancel"></topbar>
+    <view class="wrapper" :style="{ 'padding-top': keyboardHeight }">
+        <robin-editor-header class="header" @cancel="cancel" @save="save" :labelConfirm="labelConfirm" :labelCancel="labelCancel"></robin-editor-header>
         <view :style="'height:' + editorHeight + 'px;'" class="container" v-if="!previewMode" v-show="!showPreview">
             <editor
                 v-if="!previewMode"
@@ -113,23 +113,13 @@
                 ></view>
             </block>
         </view>
-        <uni-popup ref="popup" type="bottom" @transed="colorPop">
-            <colorPicker :color="color" :show="showColor" @confirm="colorChanged" @cancel="colorPopClose"></colorPicker>
-        </uni-popup>
+        <uni-popup type="bottom" ref="color"><robin-color-picker :color="color" @confirm="colorChanged"></robin-color-picker></uni-popup>
         <view class="preview" v-show="showPreview"><rich-text :nodes="htmlData" class="previewNodes"></rich-text></view>
     </view>
 </template>
 
 <script>
-import colorPicker from '@/components/colorPicker.vue';
-import uniPopup from '@/components/uni-popup/uni-popup.vue';
-import topbar from './header.vue';
 export default {
-    components: {
-        colorPicker,
-        uniPopup,
-        topbar
-    },
     props: {
         value: {
             type: String
@@ -184,7 +174,7 @@ export default {
             bgColor: '',
             color: '',
             colorPickerName: '',
-            showColor: false,
+            showColor: true,
             fontSizeRange: [10, 12, 14, 16, 18, 24, 32],
             showPreview: false,
             htmlData: '',
@@ -221,6 +211,7 @@ export default {
         let keyboardHeight = 0;
         this.updatePosition(0);
         uni.onKeyboardHeightChange(res => {
+            console.log(res, keyboardHeight);
             if (res.height === keyboardHeight) return;
             const duration = res.height > 0 ? res.duration * 1000 : 0;
             keyboardHeight = res.height;
@@ -246,7 +237,6 @@ export default {
     methods: {
         updatePosition(keyboardHeight) {
             const { windowHeight, windowWidth, platform } = uni.getSystemInfoSync();
-            console.log(windowHeight);
             const rpx = windowWidth / 750;
             let titleHeight = 0;
             //#ifdef H5
@@ -269,15 +259,7 @@ export default {
                 color = '#000000';
             }
             this.color = color;
-            this.$refs.popup.open({
-                type: 'bottom'
-            });
-        },
-        colorPop(e) {
-            this.showColor = e.show;
-        },
-        colorPopClose() {
-            this.$refs.popup.close();
+            this.$refs.color.open(color);
         },
         colorChanged(e) {
             let label = '';
@@ -294,7 +276,6 @@ export default {
                     label = '颜色';
                     break;
             }
-            this.colorPopClose();
             this._format(this.colorPickerName, e.color, label + e.color);
         },
         readOnlyChange() {
