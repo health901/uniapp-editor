@@ -246,14 +246,15 @@ export default {
     methods: {
         updatePosition(keyboardHeight) {
             const { windowHeight, windowWidth, platform } = uni.getSystemInfoSync();
+            console.log(windowHeight);
             const rpx = windowWidth / 750;
-            let topbarHeight = 85 * rpx;
+            let titleHeight = 0;
             //#ifdef H5
-            topbarHeight += 44;
+            titleHeight = 44; //H5标题栏高度
             //#endif
-            const toolbarHeight = (70 * Math.ceil(this.tools.length / 15) + 1) * rpx;
+            const toolbarHeight = (70 * Math.ceil(this.tools.length / 15) + 1) * rpx; //底部工具栏高度
 
-            const bodyHeight = windowHeight - topbarHeight;
+            const bodyHeight = windowHeight - titleHeight;
             this.keyboardHeight = keyboardHeight;
             this.editorHeight = keyboardHeight > 0 ? bodyHeight - keyboardHeight - toolbarHeight : this.autoHideToolbar ? bodyHeight : bodyHeight - toolbarHeight;
         },
@@ -430,12 +431,13 @@ export default {
 .wrapper {
     padding: 5px;
     width: 100%;
-
+    position: relative;
     .header {
         width: 100%;
         position: fixed;
         z-index: 9;
         left: 0;
+        height: 75rpx;
         /* #ifndef H5 */
         top: 0;
         /* #endif */
