@@ -1,7 +1,7 @@
 {
     "id": "robin-editor",
     "displayName": "robin-editor",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "基于原生editor组件的富文本编辑器组件,支持颜色选择,插入图片",
     "keywords": [
         "robin-editor",

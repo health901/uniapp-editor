@@ -13,8 +13,9 @@
 </template>
 
 <script>
+import popup from '@/uni_modules/uni-popup/components/uni-popup/popup.js';
 export default {
-    inject: ['popup'],
+    mixins: [popup],
     props: {
         color: {
             type: String,
@@ -28,14 +29,15 @@ export default {
             colorName: '',
             hueLeft: 0.5, // 色相选择器初始位置 [0, 1]
             anchorTop: 0.5, // 颜色选择器初始 top [0, 1]
-            anchorLeft: 0.5, // 颜色选择器初始 left [0, 1],
+            anchorLeft: 0.5 // 颜色选择器初始 left [0, 1],
         };
     },
     created() {
-        this.popup.childrenMsg = this;
+        this.popup.messageChild = this;
     },
     methods: {
         open: function() {
+            this.popup.open();
             setTimeout(() => {
                 this.init();
             }, this.popup.duration);

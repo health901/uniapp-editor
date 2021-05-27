@@ -113,7 +113,7 @@
                 ></view>
             </block>
         </view>
-        <uni-popup type="bottom" ref="color"><robin-color-picker :color="color" @confirm="colorChanged"></robin-color-picker></uni-popup>
+        <uni-popup type="bottom"><robin-color-picker :color="color" @confirm="colorChanged" ref="color"></robin-color-picker></uni-popup>
         <view class="preview" v-show="showPreview"><rich-text :nodes="htmlData" class="previewNodes"></rich-text></view>
     </view>
 </template>
@@ -211,7 +211,6 @@ export default {
         let keyboardHeight = 0;
         this.updatePosition(0);
         uni.onKeyboardHeightChange(res => {
-            console.log(res, keyboardHeight);
             if (res.height === keyboardHeight) return;
             const duration = res.height > 0 ? res.duration * 1000 : 0;
             keyboardHeight = res.height;
@@ -260,6 +259,7 @@ export default {
             }
             this.color = color;
             this.$refs.color.open(color);
+            
         },
         colorChanged(e) {
             let label = '';
